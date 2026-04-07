@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import io.github.cadnunsdimir.android.meusgastosmobile.ui.screen.BankAccountFormScreen
 import io.github.cadnunsdimir.android.meusgastosmobile.ui.screen.BankAccountListScreen
 import io.github.cadnunsdimir.android.meusgastosmobile.ui.screen.MonthlyMovementsScreen
 import io.github.cadnunsdimir.android.meusgastosmobile.ui.screen.MovementFormScreen
@@ -22,7 +25,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MeusGastosMobileTheme {
-                AppNavigation()
+                Surface(
+                    modifier = Modifier.padding(top = 36.dp)
+                ) {
+                    AppNavigation()
+                }
             }
         }
     }
@@ -41,9 +48,6 @@ class MainActivity : ComponentActivity() {
             }
             composable("accounts") {
                 BankAccountListScreen(navController = navController)
-            }
-            composable("accounts/add") {
-                BankAccountFormScreen(viewModel = viewModel, navController = navController)
             }
             composable("movements/add") { backStackEntry ->
                 MovementFormScreen(navController = navController, viewModel = viewModel)

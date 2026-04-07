@@ -24,8 +24,8 @@ import java.util.UUID
     ]
 )
 data class AccountMovement(
-    @PrimaryKey(autoGenerate = true)
-    val id: UUID,
+    @PrimaryKey
+    val id: UUID = UUID.randomUUID(),
     val date: LocalDate,
     val value: BigDecimal,
     val accountId: UUID,

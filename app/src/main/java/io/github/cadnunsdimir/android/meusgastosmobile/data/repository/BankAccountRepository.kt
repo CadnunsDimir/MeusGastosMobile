@@ -3,9 +3,9 @@ package io.github.cadnunsdimir.android.meusgastosmobile.data.repository
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-
 import io.github.cadnunsdimir.android.meusgastosmobile.data.entity.BankAccount
 import kotlinx.coroutines.flow.Flow
+import java.util.UUID
 
 @Dao
 interface BankAccountRepository {
@@ -16,6 +16,8 @@ interface BankAccountRepository {
     fun getAll(): Flow<List<BankAccount>>
 
     @Query("SELECT * FROM BankAccount WHERE id = :bankAccountId")
-    fun getById(bankAccountId: Int): Flow<BankAccount>
+    fun getById(bankAccountId: UUID): Flow<BankAccount>
 
+    @Query("DELETE FROM BankAccount WHERE id = :id")
+    fun remove(id: UUID)
 }
