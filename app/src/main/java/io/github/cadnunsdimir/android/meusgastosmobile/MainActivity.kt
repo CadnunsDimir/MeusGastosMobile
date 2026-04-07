@@ -27,10 +27,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MeusGastosMobileTheme {
-                Surface(
-                    modifier = Modifier.padding(top = 36.dp)
-                ) {
-                    Column(modifier = Modifier.fillMaxSize()) {
+                Surface {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 48.dp)) {
                         AppNavigation()
                     }
                 }

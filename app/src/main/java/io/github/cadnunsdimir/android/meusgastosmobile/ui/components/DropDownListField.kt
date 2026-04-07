@@ -1,6 +1,5 @@
 package io.github.cadnunsdimir.android.meusgastosmobile.ui.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -16,7 +15,7 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownListField(label: String, selectedOption: String, options: List<String>, onChange: (value: String)-> Unit) {
+fun DropDownListField(label: String, selectedOption: String, options: List<String>, onChange: (value: String)-> Unit, modifier: Modifier = Modifier) {
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
@@ -31,7 +30,7 @@ fun DropDownListField(label: String, selectedOption: String, options: List<Strin
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded)
             },
-            modifier = Modifier.menuAnchor().fillMaxWidth()
+            modifier = modifier.menuAnchor()
         )
 
         ExposedDropdownMenu(

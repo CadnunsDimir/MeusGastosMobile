@@ -49,9 +49,8 @@ class BankAccountsViewModel (application: Application): AndroidViewModel(applica
         }
     }
 
-
     private fun clearForm() {
-        _formState.value =AccountState()
+        _formState.value = AccountState()
     }
 
     fun formIsValid(value: AccountState): Boolean {

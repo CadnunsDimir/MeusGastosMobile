@@ -11,6 +11,6 @@ data class BankAccount(
     val id: UUID = UUID.randomUUID(),
     val name: String,
     val initialBalance: BigDecimal,
-    val currentBalance: BigDecimal
+    var currentBalance: BigDecimal
 )
 
