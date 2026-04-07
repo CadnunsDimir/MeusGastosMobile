@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.cadnunsdimir.android.meusgastosmobile.data.db.DatabaseProvider
 import io.github.cadnunsdimir.android.meusgastosmobile.data.entity.BankAccount
-import io.github.cadnunsdimir.android.meusgastosmobile.ui.dto.AccountDto
+import io.github.cadnunsdimir.android.meusgastosmobile.ui.dto.AccountState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,24 +13,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.math.BigDecimal
-import java.text.NumberFormat
-import java.util.Locale
 import java.util.UUID
 
 class BankAccountsViewModel (application: Application): AndroidViewModel(application){
-    val db = DatabaseProvider.getDatabase(application)
-    val bankAccountRepository = db.bankAccount()
-    val locale = Locale("pt", "BR")
-
+    private val db = DatabaseProvider.getDatabase(application)
+    private val bankAccountRepository = db.bankAccount()
     val accounts = bankAccountRepository.getAll().stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         emptyList()
     )
 
-    private val _formState = MutableStateFlow(AccountDto())
-    val formState: StateFlow<AccountDto> = _formState
+    private val _formState = MutableStateFlow(AccountState())
+    val formState: StateFlow<AccountState> = _formState
 
     fun onNameChange(name: String) {
         _formState.value = _formState.value.copy(name = name)
@@ -40,9 +35,9 @@ class BankAccountsViewModel (application: Application): AndroidViewModel(applica
         _formState.value = _formState.value.copy(initialBalance = initialBalance)
     }
 
-    fun addAccount(accountDto: AccountDto){
+    fun addAccount(accountDto: AccountState){
         viewModelScope.launch(Dispatchers.IO) {
-            val balance = fromBRLToDecimal(accountDto.initialBalance)
+            val balance = Formatters.fromBRLToDecimal(accountDto.initialBalance)
             val account = BankAccount(
                 name = accountDto.name,
                 currentBalance =  balance,
@@ -54,22 +49,12 @@ class BankAccountsViewModel (application: Application): AndroidViewModel(applica
         }
     }
 
-    private fun fromBRLToDecimal(value: String): BigDecimal{
-        val format = NumberFormat.getInstance(locale)
-        val number = format.parse(value)
-        return BigDecimal(number?.toString())
-    }
 
     private fun clearForm() {
-        _formState.value =AccountDto()
+        _formState.value =AccountState()
     }
 
-    fun formatBRL(value: BigDecimal): String {
-        val brlCurrencyFormatter: NumberFormat = NumberFormat.getCurrencyInstance(locale)
-        return brlCurrencyFormatter.format(value)
-    }
-
-    fun formIsValid(value: AccountDto): Boolean {
+    fun formIsValid(value: AccountState): Boolean {
         return value.name.isNotBlank() && value.initialBalance.isNotBlank()
     }
 

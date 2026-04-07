@@ -1,6 +1,6 @@
 package io.github.cadnunsdimir.android.meusgastosmobile.ui.dto
 
-data class AccountDto(
+data class AccountState(
     val name: String = "",
     val initialBalance: String = "",
 )

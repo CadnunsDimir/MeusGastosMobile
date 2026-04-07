@@ -1,4 +1,4 @@
-package io.github.cadnunsdimir.android.meusgastosmobile.ui.screen
+package io.github.cadnunsdimir.android.meusgastosmobile.ui.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +21,7 @@ import androidx.navigation.NavHostController
 import io.github.cadnunsdimir.android.meusgastosmobile.viewmodels.BankAccountsViewModel
 
 @Composable
-fun BankAccountFormScreen(
+fun BankAccountForm(
     viewModel: BankAccountsViewModel,
     navController: NavHostController
 ) {

@@ -3,7 +3,6 @@ package io.github.cadnunsdimir.android.meusgastosmobile.ui.screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import io.github.cadnunsdimir.android.meusgastosmobile.ui.components.BankAccountForm
 import io.github.cadnunsdimir.android.meusgastosmobile.viewmodels.BankAccountsViewModel
+import io.github.cadnunsdimir.android.meusgastosmobile.viewmodels.Formatters
 
 @Composable
 fun BankAccountListScreen(
@@ -25,9 +26,9 @@ fun BankAccountListScreen(
 ) {
     val accounts = viewModel.accounts.collectAsStateWithLifecycle()
     Column(
-        modifier = Modifier.padding(16.dp).fillMaxSize()
+        modifier = Modifier.padding(16.dp)
     ) {
-        BankAccountFormScreen(viewModel, navController)
+        BankAccountForm(viewModel, navController)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -43,7 +44,7 @@ fun BankAccountListScreen(
                 ) {
                     Text("Id: ${account.id}", style = MaterialTheme.typography.titleMedium)
                     Text("Nome: ${account.name}", style = MaterialTheme.typography.titleMedium)
-                    Text("Saldo Atual: ${ viewModel.formatBRL(account.currentBalance)}", style = MaterialTheme.typography.bodyMedium)
+                    Text("Saldo Atual: ${Formatters.formatBRL(account.currentBalance)}", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
