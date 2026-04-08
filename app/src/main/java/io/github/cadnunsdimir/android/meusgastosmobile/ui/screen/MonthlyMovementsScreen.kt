@@ -1,10 +1,8 @@
 package io.github.cadnunsdimir.android.meusgastosmobile.ui.screen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -15,15 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import io.github.cadnunsdimir.android.meusgastosmobile.ui.components.Button
+import io.github.cadnunsdimir.android.meusgastosmobile.ui.components.MonthSelector
+import io.github.cadnunsdimir.android.meusgastosmobile.ui.components.MovementCard
 import io.github.cadnunsdimir.android.meusgastosmobile.ui.components.MovementFormModal
-import io.github.cadnunsdimir.android.meusgastosmobile.viewmodels.Formatters
 import io.github.cadnunsdimir.android.meusgastosmobile.viewmodels.MonthlyAccountMovementsViewModel
-import java.math.BigDecimal
 
 @Composable
 fun MonthlyMovementsScreen(
@@ -31,11 +27,23 @@ fun MonthlyMovementsScreen(
     navController: NavHostController
 ) {
     val movements = viewModel.movements.collectAsStateWithLifecycle()
+    val currentMonth = viewModel.selectedDate.collectAsStateWithLifecycle()
     var showSheet by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text("Movimentações", style = MaterialTheme.typography.titleLarge)
+
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Text("Movimentações",
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.titleLarge)
+            MonthSelector(
+                month = currentMonth.value.month.value,
+                year = currentMonth.value.year,
+                onSelect = { month, year ->
+                    viewModel.changeMonth(month, year)
+                })
+        }
 
         Button("Contas") {
             navController.navigate("accounts")
@@ -49,19 +57,9 @@ fun MonthlyMovementsScreen(
             showSheet = false
         }
 
-        LazyColumn() {
+        LazyColumn {
             items(movements.value) { movement ->
-                val color = if(movement.value < BigDecimal.ZERO) Color.Red else Color.Green
-                Column(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .clickable {
-                            //editar
-                        }.background(color)
-                ) {
-                    Text("${ movement.date } ${movement.description}", style = MaterialTheme.typography.titleMedium)
-                    Text(Formatters.formatBRL(movement.value), style = MaterialTheme.typography.bodyMedium)
-                }
+                MovementCard(movement)
             }
         }
     }

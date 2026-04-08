@@ -38,14 +38,15 @@ fun MovementFormModal(
     showSheet: Boolean,
     onDismissRequest: () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+    val sheetState = rememberModalBottomSheetState()
     val form = viewModel.formState.collectAsStateWithLifecycle()
     val categories = viewModel.categories.collectAsStateWithLifecycle()
     val accounts = viewModel.accounts.collectAsStateWithLifecycle()
+    var showCategoryForm by remember { mutableStateOf(false) }
+
     val accountList = accounts.value.map { it.name }
     val categoriesList = categories.value.map { it.name }
-    val sheetState = rememberModalBottomSheetState()
-    val focusManager = LocalFocusManager.current
-    var showCategoryForm by remember { mutableStateOf(false) }
 
     val onSubmit: () -> Unit = {
         viewModel.addMovement(form.value)
@@ -67,12 +68,13 @@ fun MovementFormModal(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 OutlinedTextField(
-                    value = "${form.value.dayOfMonth}",
+                    value = form.value.dayOfMonth,
                     onValueChange = viewModel::onDayOfMonthChange,
                     label = { Text("Dia") },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Number,
                     ),
                     keyboardActions = KeyboardActions(
                         onNext = { focusManager.moveFocus(FocusDirection.Down) }
@@ -86,8 +88,22 @@ fun MovementFormModal(
                     label = { Text("Descrição") },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Decimal,
                         imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                    )
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+
+                OutlinedTextField(
+                    value = form.value.value,
+                    onValueChange = viewModel::onValueChange,
+                    label = { Text("Valor") },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Decimal
                     ),
                     keyboardActions = KeyboardActions(
                         onNext = { focusManager.moveFocus(FocusDirection.Down) }
@@ -127,7 +143,6 @@ fun MovementFormModal(
                             label = { Text("Nova Categoria") },
                             modifier = Modifier.fillMaxWidth(),
                             keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Decimal,
                                 imeAction = ImeAction.Done
                             ),
                             keyboardActions = KeyboardActions(
@@ -140,7 +155,6 @@ fun MovementFormModal(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(4.dp))
                 Spacer(modifier = Modifier.height(4.dp))
                 Button(
                     "Cadastrar"
