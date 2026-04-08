@@ -1,8 +1,10 @@
 package io.github.cadnunsdimir.android.meusgastosmobile.ui.screen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +35,9 @@ fun MonthlyMovementsScreen(
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)) {
             Text("Movimentações",
                 modifier = Modifier.weight(1f),
                 style = MaterialTheme.typography.titleLarge)
@@ -45,11 +49,11 @@ fun MonthlyMovementsScreen(
                 })
         }
 
-        Button("Contas") {
+        Button("Contas", Modifier.fillMaxWidth()) {
             navController.navigate("accounts")
         }
 
-        Button("Registrar Movimentação") {
+        Button("Registrar Movimentação", Modifier.fillMaxWidth()) {
             showSheet = true
         }
 

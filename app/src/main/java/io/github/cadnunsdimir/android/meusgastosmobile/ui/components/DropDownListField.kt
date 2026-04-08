@@ -16,13 +16,18 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownListField(label: String, selectedOption: String, options: List<String>, onChange: (value: String)-> Unit, modifier: Modifier = Modifier) {
+fun DropDownListField(
+    label: String,
+    selectedOption: String,
+    options: List<String>,
+    onChange: (value: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
-        modifier = modifier
     ) {
         OutlinedTextField(
             value = selectedOption,
@@ -32,7 +37,8 @@ fun DropDownListField(label: String, selectedOption: String, options: List<Strin
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded)
             },
-            modifier =  Modifier.menuAnchor(
+            modifier =  modifier
+                .menuAnchor(
                 type = ExposedDropdownMenuAnchorType.PrimaryNotEditable,
                 enabled = true
             )
@@ -40,7 +46,7 @@ fun DropDownListField(label: String, selectedOption: String, options: List<Strin
 
         ExposedDropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
         ) {
             options.forEach { option ->
                 DropdownMenuItem(

@@ -1,8 +1,10 @@
 package io.github.cadnunsdimir.android.meusgastosmobile.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
@@ -61,6 +64,7 @@ fun MovementFormModal(
             Column(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
+                    .fillMaxWidth()
                     .padding(16.dp)
             ){
 
@@ -112,16 +116,19 @@ fun MovementFormModal(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 DropDownListField(
-                    modifier = Modifier.fillMaxWidth(),
                     label = "Conta",
                     selectedOption = form.value.accountName,
                     options = accountList,
                     onChange = {
                         viewModel.onAccountNameChange(it)
-                    }
+                    },
+                    modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
                     if (!showCategoryForm) {
                         DropDownListField(
                             label = "Categoria",
@@ -130,10 +137,11 @@ fun MovementFormModal(
                             onChange = {
                                 viewModel.onCategoryChange(it)
                             },
-                            modifier = Modifier.weight(3f)
+                            modifier = Modifier.weight(7f)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Button("+", modifier =  Modifier.weight(1f)) {
+                        Button("+",
+                            modifier = Modifier.weight(1f).fillMaxHeight()) {
                             showCategoryForm = true
                         }
                     } else {
@@ -157,7 +165,8 @@ fun MovementFormModal(
 
                 Spacer(modifier = Modifier.height(4.dp))
                 Button(
-                    "Cadastrar"
+                    "Cadastrar",
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     onSubmit()
                 }
