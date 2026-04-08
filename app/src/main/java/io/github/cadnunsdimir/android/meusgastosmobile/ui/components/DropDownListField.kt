@@ -2,6 +2,7 @@ package io.github.cadnunsdimir.android.meusgastosmobile.ui.components
 
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -20,7 +21,8 @@ fun DropDownListField(label: String, selectedOption: String, options: List<Strin
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { expanded = !expanded }
+        onExpandedChange = { expanded = !expanded },
+        modifier = modifier
     ) {
         OutlinedTextField(
             value = selectedOption,
@@ -30,7 +32,10 @@ fun DropDownListField(label: String, selectedOption: String, options: List<Strin
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded)
             },
-            modifier = modifier.menuAnchor()
+            modifier =  Modifier.menuAnchor(
+                type = ExposedDropdownMenuAnchorType.PrimaryNotEditable,
+                enabled = true
+            )
         )
 
         ExposedDropdownMenu(

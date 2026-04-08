@@ -5,7 +5,10 @@ import java.text.NumberFormat
 import java.util.Locale
 
 object Formatters {
-    val locale = Locale("pt", "BR")
+    val locale: Locale = Locale.Builder()
+        .setLanguage("pt")
+        .setRegion("BR")
+        .build()
 
     fun fromBRLToDecimal(value: String): BigDecimal{
         val format = NumberFormat.getInstance(locale)
