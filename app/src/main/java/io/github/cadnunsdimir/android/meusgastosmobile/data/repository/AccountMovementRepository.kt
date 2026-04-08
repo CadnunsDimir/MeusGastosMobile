@@ -10,7 +10,7 @@ import java.time.LocalDate
 @Dao
 interface AccountMovementRepository {
     @Insert
-    suspend fun insert(bankAccount: AccountMovement): Long
+    fun insert(bankAccount: AccountMovement): Long
 
     @Query("SELECT * FROM AccountMovement where date >= :beginDate and date < :endDate")
     fun getAllBetweenDates(beginDate: LocalDate, endDate: LocalDate): Flow<List<AccountMovement>>

@@ -11,6 +11,7 @@ import io.github.cadnunsdimir.android.meusgastosmobile.data.entity.MovementCateg
 import io.github.cadnunsdimir.android.meusgastosmobile.data.repository.AccountMovementRepository
 import io.github.cadnunsdimir.android.meusgastosmobile.data.repository.BankAccountRepository
 import io.github.cadnunsdimir.android.meusgastosmobile.data.repository.MovementCategoryRepository
+import io.github.cadnunsdimir.android.meusgastosmobile.data.repository.TransactionRepository
 
 @Database(
     entities = [AccountMovement::class, BankAccount::class, MovementCategory::class],
@@ -22,5 +23,5 @@ abstract class AppDatabase : RoomDatabase(){
     abstract fun bankAccount(): BankAccountRepository
     abstract fun accountMovement(): AccountMovementRepository
     abstract fun movementCategory(): MovementCategoryRepository
-
+    abstract fun transaction(): TransactionRepository
 }
